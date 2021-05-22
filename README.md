@@ -1,77 +1,103 @@
-# 헬린이 안드로이드 어플리케이션
+# Training Equipment
 
-안드로이드 어플리케이션을 사용하여 운동기구를 찍으면 어떤 운동기구인지, 어떻게 운동해야하는지 알 수 있습니다.
+- 물체인식을 이용한 헬스 운동기구 매뉴얼 어플 -
 <br>
 <br>
 <br>
 <br>
+
+## 설계 소개
+ - 자세한 내용은 pdf를 확인하시면 됩니다.
+<br>
+<br>
+<br>
+<br>
+
 ## Getting Started / 어떻게 시작하나요?
 
-안드로이드, 머신러닝, PHP 폴더를 전부 다운로드 받아야 합니다.
-자세한 사항은 밑에서 설명합니다.
+1. 안드로이드, 머신러닝, PHP 폴더를 전부 다운로드 받아야 합니다.
+2. 핸드폰과 컴퓨터를 연결한 후 안드로이드 스튜디오를 통해 Equipment.java 파일을 실행합니다.
+3. (안드로이드) 핸드폰에 해당 어플이 다운로드되면 어플이 실행됩니다.
 <br>
 <br>
 <br>
 <br>
+
 ### Prerequisites / 선행 조건
 
 아래 사항이 설치가 되어있어야합니다.
 
 ```
 1. Ubuntu 18.04 버전을 서버로 가지고 있어야 합니다.
+
 2. 해당 서버에 머신러닝 폴더와 PHP 폴더를 다운로드 합니다.
+
 3. 추가적으로 경로는 /var/html/www/아래에 다운로드 한다.
+
+4. Host Computer와 서버가 연결할 수 있게 네트워크를 설정해줘야합니다.
 ```
 <br>
 <br>
 <br>
 <br>
+
 ### Installing / 설치
 
-아래 사항들로 현 프로젝트에 관한 모듈들을 설치할 수 있습니다.
+아래 개발 환경이 설정 되어 있어야 실행할 수 있습니다.
 
 ```
-(선택) Docker Desktop이 설치되어 있으면 좀 더 한 눈에 컨테이너들이 실행 되는 것을 확인할 수 있습니다.
+Host Coumputer : Android Studio
+Server(ubuntu 18.04) : Python, Tensorflow, MySQL, php, Apache2
 ```
 <br>
 <br>
 <br>
 <br>
+
 ## Running the tests / 테스트의 실행
 
-관리자 권한으로 powershell 실행 후 docker-compose.yml 파일 경로로 들어가 "docker-compose up" 명령어만 입력해줍니다.
+1. Android Studio를 통해 Equipment.java 파일을 실행하면 어플이 실행되고 사용할 수 있습니다.
+2. 그 전에 몇가지 설정해야할 사항을 아래 표시합니다.
 <br>
 <br>
 <br>
 <br>
-### 테스트는 이런 식으로 동작합니다
+
+### 코드 변경 사항
 
 ```
-1. 가장 먼저 MySQL 기반의 도커 컨테이너가 올라간다.
+1. Host Computer와 Guest Computer(Server)를 준비합니다.
 
-2. 컨테이너 이름은 database이고, 해당 컨테이너는 같은 경로의 db.env 파일을 통해 환경 변수를 설정한다.
+2. Host Computer를 HC, Guest Computer는 서버라고 적겠습니다.
 
-3. 볼륨 설정으로 인해 좀 전에 다운로드 받은 database 폴더를 docker-compose.yml 파일과 같은 경로에 넣는다.
+3. HC는 Android Studio만 다운로드 해줍니다.
 
-4. depends_on에 의해 python3 기반의 컨테이너인 crawler가 실행되고 외교부 사이트에 기록된 나라별 출입국 규정을 크롤링해서 DB컨테이너에 저장해준다.
+4. 서버는 ubuntu:18.04 버전으로 OS를 설치해야합니다.
 
-5. 크롤링을 실행하는 주기는 crawler.py 파일을 통해 수정할 수 있다.
+5. 서버에 위에 필요한 개발 환경들을 전부 다운로드해줍니다.
 
-6. 마지막으로 webapp 컨테이너는 ubuntu 기반으로 flask를 통해 웹 사이트를 제작했다.
+6. Github에 등록된 PHP(/var/html/www/) 파일과 머신러닝(/var/www/html/uploads) 파일을 해당 경로에 저장해줍니다.
 
-7. folium library를 통해 지도를 제작했고, 플라스크에서 제공하는 무료 템플릿을 통해 웹 페이지를 꾸밀 수 있었다.
+7. /var/www/html/name.txt 파일을 만들어줍니다. (권한은 chmod 777)
 
-8. 지도에 뜨는 아이콘을 클릭하면 각 나라별(50개국) 해당 출입국 규정을 볼 수 있는 웹 사이트로 넘어가는 것을 확인할 수 있다.
+8. MySQL을 다운로드 받은 후 php 폴더 안에 있는 dbcon.php를 보고 db이름, 테이블명 등을 설정해줍니다.
 
-9. 원하는 나라를 클릭하여 출입국 규정을 살펴보자!
+9. 머신러닝 폴더안에서 확인해야 할 파일은 online_detection_preprocessing.py입니다.
+
+10. 해당 파일은 remove.bg(유료 api)를 사용해 이미지의 백그라운드를 지운 후 물체 인식을 진행하기 때문에 remove.bg 사이트에 로그인해 api 키를 얻고 진행해야합니다.
+
+11. online_detection_preprocessing.py 파일 안에 X-Api-key : ~~~ 부분에 remove.bg api 키만 넣어주시면 실행이 됩니다.
+
+12. 요약하여 설명했기 때문에 해당 파일들을 전부 확인해보시고 실행하시면 공부에 좀 더 도움이 될 것입니다. 혹시나 모르는 부분은 코멘트 및 이메일 남겨주시면 답변 드리겠습니다.
 ```
 <br>
 <br>
 <br>
 <br>
+
 ### 테스트는 이런 식으로 작성하시면 됩니다
 
 ```
-혹시 자기만의 색깔로 커스터마이징을 하시고 싶은분들이 있을 수도 있어 컨테이너를 제작할 때 사용했던 코드도 전부 올렸습니다.
+혹시 비슷한 방식으로 머신러닝을 통해 프로젝트를 진행하시고 싶은 분들은 retrain_inceptionv3.py만 수정해서 클래스를 추가하시면 운동기구 분류가 아닌 동물, 식물, 등 여러 클래스를 분류할 수 있게 됩니다.
 ```
 
